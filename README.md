@@ -182,5 +182,10 @@ Documents uploaded to the system are:
 4. Indexed for semantic search
 5. Associated with the user ID for retrieval
 
+## UI Snapshots
+
+![Login](./images/login.png)
+
+![UI](./images/ui.png)
 
 **Note**: This RAG application is designed to work with AWS services.
