@@ -79,8 +79,8 @@ The application follows a client-server architecture:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/rag-app-aws.git
-   cd rag-app-aws
+   git clone https://github.com/genieincodebottle/rag-app-on-aws-ui.git
+   cd rag-app-on-aws-ui
    ```
 
 2. Create a virtual environment:
