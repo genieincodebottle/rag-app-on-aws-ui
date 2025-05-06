@@ -1,191 +1,92 @@
-# RAG Application on AWS
+## Hybrid RAG Chatbot: Local UI with Cloud Backend (AWS) 
 
-A Streamlit-based web application for Retrieval-Augmented Generation (RAG) using Amazon Web Services.
+A Streamlit-based web app for Retrieval-Augmented Generation (RAG) powered by AWS services.
 
-## Related Projects
+![App](./images/ui.png)
 
-- [RAG Backend](https://github.com/genieincodebottle/rag-app-on-aws): The AWS Infra provisioing and related RAG backend codes.
 
-## Application Flow diagrams
+### 🧩 Overview
 
-- [Authentication Flow](https://github.com/genieincodebottle/rag-app-on-aws-ui/blob/main/images/auth_sequence.png)
-- [Doc Upload Flow](https://github.com/genieincodebottle/rag-app-on-aws-ui/blob/main/images/document_upload_sequence.png)
-- [Doc Processing Flow](https://github.com/genieincodebottle/rag-app-on-aws-ui/blob/main/images/doc_processing_sequence.png)
-- [Query Processing Flow](https://github.com/genieincodebottle/rag-app-on-aws-ui/blob/main/images/query_processing_sequence.png)
+A web interface for uploading documents, querying them via natural language, and retrieving AI-based responses using AWS-based RAG infrastructure.
 
-## Table of Contents
+### ✨ Features
 
-- [Overview](#overview)
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Authentication](#authentication)
-- [Document Management](#document-management)
-- [Contributing](#contributing)
-- [License](#license)
+- Secure Cognito-based user authentication with auto token refresh
+- Upload, view, and manage various document types
+- AI-powered querying with relevance scoring and history
+- Clean, intuitive Streamlit UI
 
-## Overview
+### 🔁 Application Flow Diagrams
 
-This RAG (Retrieval-Augmented Generation) application provides a web-based interface for uploading documents, querying them using natural language, and retrieving AI-generated responses based on the document content. The application uses AWS services for authentication, document storage, indexing, and AI processing.
+- [Authentication Flow](./images/auth_sequence.png)
+- [Doc Upload Flow](./images/document_upload_sequence.png)
+- [Doc Processing Flow](./images/doc_processing_sequence.png)
+- [Query Processing Flow](./images/query_processing_sequence.png)
 
-## Features
+### 🏗️ System Architecture
 
-- **User Authentication**:
-  - Registration, login, and password reset functionality
-  - Token-based authentication with auto-refresh
-  - Email verification
+- **Frontend**: Streamlit UI
+- **Backend**: AWS API Gateway, Lambda, Cognito, S3, RDS/OpenSearch, Bedrock (or similar)
 
-- **Document Management**:
-  - Upload various document types (PDF, DOCX, TXT, CSV, etc.)
-  - View uploaded documents
-  - Associate documents with user IDs
-
-- **Querying Capabilities**:
-  - Natural language queries against uploaded documents
-  - AI-generated responses based on document content
-  - Relevance scoring for retrieved documents
-  - Query history tracking
-
-- **User Interface**:
-  - Clean, responsive Streamlit interface
-  - Tabbed views for different application sections
-  - Detailed error reporting and status updates
-
-## System Architecture
-
-The application follows a client-server architecture:
-
-1. **Frontend**: Streamlit web application
-2. **Backend**: AWS services including:
-   - API Gateway for RESTful API endpoints
-   - Lambda functions for processing
-   - Cognito for user authentication
-   - S3 for document storage
-   - OpenSearch/vector database for document indexing and retrieval
-   - AWS Bedrock or similar for AI generation
-
-## Prerequisites
+### ⚙️ Prerequisites
 
 - Python 3.8+
 - Streamlit 1.45.0+
-- AWS Account with appropriate services configured
-- API endpoints for authentication, document upload, and querying
+- AWS account with backend APIs deployed
 
-## Installation
+### 🚀 Installation
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/genieincodebottle/rag-app-on-aws-ui.git
-   cd rag-app-on-aws-ui
-   ```
+```bash
+git clone https://github.com/genieincodebottle/rag-app-on-aws-ui.git
+cd rag-app-on-aws-ui
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-2. Create a virtual environment:
-   ```
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+### 🛠️ Configuration
 
-3. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+Create a `.env` file:
 
-## Configuration
+```env
+API_BASE_URL=https://your-api-gateway-url.amazonaws.com/stage
+API_KEY=your_api_key_if_needed
+DEFAULT_USER_ID=test-user
+UPLOAD_ENDPOINT=/upload
+QUERY_ENDPOINT=/query
+AUTH_ENDPOINT=/auth
+COGNITO_CLIENT_ID=your_cognito_client_id
+```
 
-1. Create a `.env` file in the project root with the following variables:
-   ```
-   API_BASE_URL=https://your-api-gateway-url.amazonaws.com/stage
-   API_KEY=your_api_key_if_needed
-   DEFAULT_USER_ID=test-user
-   UPLOAD_ENDPOINT=/upload
-   QUERY_ENDPOINT=/query
-   AUTH_ENDPOINT=/auth
-   COGNITO_CLIENT_ID=your_cognito_client_id
-   ```
+### 💡 Usage
 
-2. Configure your AWS services:
-   - Set up Cognito User Pool for authentication
-   - Configure API Gateway with appropriate endpoints
-   - Set up Lambda functions for backend processing
-   - Configure S3 buckets for document storage
-   - Set up OpenSearch or vector database for document indexing
+```bash
+streamlit run app.py
+```
 
-## Usage
+Visit `http://localhost:8501`, register or log in, upload documents, and start querying.
 
-1. Start the Streamlit application:
-   ```
-   streamlit run app.py
-   ```
+### 🔌 API Endpoints
 
-2. Access the application in your web browser at `http://localhost:8501`
+- `/auth`: Register, login, refresh token, password reset
+- `/upload`: Upload and track documents
+- `/query`: Ask natural language questions, get AI responses
 
-3. Register a new account or log in with existing credentials
+### 🔐 Authentication
 
-4. Upload documents, query them, and view AI-generated responses
+Uses Cognito with JWTs, email verification, and password reset.
 
-## API Endpoints
+### 📄 Document Management
 
-The application interacts with the following API endpoints:
+Uploaded docs are:
+- Converted and chunked
+- Embedded into vectors
+- Indexed for semantic retrieval
 
-### Authentication Endpoint (`/auth`)
+### 🔗 Related Projects
 
-Handles various authentication operations:
-- `register`: Register new user
-- `verify`: Verify user email
-- `login`: Authenticate user and get tokens
-- `refresh_token`: Refresh authentication tokens
-- `forgot_password`: Initiate password reset
-- `confirm_forgot_password`: Complete password reset
+- [RAG Backend & Infra](https://github.com/genieincodebottle/rag-app-on-aws): Terraform infrastructure and backend Lambda codebase.
 
-### Upload Endpoint (`/upload`)
+---
 
-Handles document uploads:
-- Accepts file content, metadata, and user ID
-- Returns document ID and status
-
-### Query Endpoint (`/query`)
-
-Handles document queries:
-- Accepts natural language query and user ID
-- Returns AI-generated response and relevant document excerpts
-
-## Authentication
-
-The application uses Amazon Cognito for user authentication with JWT tokens:
-
-1. **Registration Process**:
-   - User registers with email, password, and optional name
-   - Verification code sent to email
-   - User verifies email with code
-
-2. **Login Process**:
-   - User logs in with email and password
-   - Receives access token, ID token, and refresh token
-   - Tokens automatically refresh before expiry
-
-3. **Password Reset**:
-   - User initiates forgot password
-   - Confirmation code sent to email
-   - User resets password with code and new password
-
-## Document Management
-
-Documents uploaded to the system are:
-
-1. Converted to text using appropriate extractors
-2. Chunked into smaller segments
-3. Embedded into vector representations
-4. Indexed for semantic search
-5. Associated with the user ID for retrieval
-
-## UI Snapshots
-
-![Login](./images/login.png)
-
-![UI](./images/ui.png)
-
-**Note**: This RAG application is designed to work with AWS services.
+**Note**: Designed for use with [rag-app-on-aws](https://github.com/genieincodebottle/rag-app-on-aws) backend infrastructure.
