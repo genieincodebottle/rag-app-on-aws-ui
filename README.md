@@ -7,7 +7,7 @@ A Streamlit-based web app for Retrieval-Augmented Generation (RAG) powered by AW
 
 ### 🧩 Overview
 
-A web interface for uploading documents, querying them via natural language, and retrieving AI-based responses using AWS-based RAG infrastructure.
+A web interface to upload documents, query them using natural language, and retrieve AI-generated responses via an AWS-powered RAG backend using Google's free-tier Gemini Pro and Embedding models.
 
 ### ✨ Features
 
